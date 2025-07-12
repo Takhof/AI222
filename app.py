@@ -12,6 +12,13 @@ from pathlib import Path
 print(sys.executable)
 
 
+# q/a dataのCSV
+data_path = Path("qa_data.csv")
+if not data_path.exists():
+    df = pd.DataFrame(columns=["question", "answer"])
+    df.to_csv(data_path, index=False, encoding="utf-8-sig")
+
+
 # モデルとトークナイザーの準備
 model = keras.models.load_model(
     r"C:\Users\takus\testramen\ramen_retriever.h5",
@@ -58,20 +65,28 @@ if user_question:
     st.markdown(f"スコア：`{score:.4f}`")
 
 
+
 st.markdown("### ✍️ 回答データの追加")
 
 new_q = st.text_input("質問を入力してね（追加用）", key="add_q")
 new_a = st.text_input("その答えを入力してね", key="add_a")
 
-if st.button("📚 データを追加する"):
+if st.button("データを追加する"):
     if new_q and new_a:
-        data_path = "qa_data.csv"
-        if os.path.exists(data_path):
-            df = pd.read_csv(data_path)
-        else:
-            df = pd.DataFrame(columns=["question", "answer"])
+        df = pd.read_csv(data_path)
         df = pd.concat([df, pd.DataFrame([{"question": new_q, "answer": new_a}])], ignore_index=True)
         df.to_csv(data_path, index=False, encoding="utf-8-sig")
         st.success("✅ データを追加したよ！ありがとう")
     else:
         st.warning("⚠️ 質問と答え、どっちもいれてね〜！")
+
+
+if st.button("今までの追加データを見る"):
+    df = pd.read_csv(data_path)
+    if df.empty:
+        st.info("まだ追加されたデータはないみたい〜💤")
+    else:
+        for i, row in df.iterrows():
+            st.markdown(f"**{i+1}. Q:** {row['question']}")
+            st.markdown(f"　　A: {row['answer']}")
+
