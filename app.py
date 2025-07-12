@@ -88,5 +88,5 @@ if st.button("今までの追加データを見る"):
     else:
         for i, row in df.iterrows():
             st.markdown(f"**{i+1}. Q:** {row['question']}")
-            st.markdown(f"　　A: {row['answer']}")
+            st.markdown(f"A: {row['answer']}")
 

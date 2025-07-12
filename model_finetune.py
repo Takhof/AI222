@@ -52,5 +52,5 @@ model.fit(
 )
 
 # ✅ 保存しなおし！
-model.save("ramen_retriever_finetuned", save_format="tf")
+model.save("ramen_retriever_finetuned.h5")
 print("🍜💕 モデルにラーメンQ&Aを追加学習したよ〜♡")
