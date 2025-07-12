@@ -87,6 +87,8 @@ python model_creator.py
 python model_finetune.py
 ```
 
+または、ramen_scraper.pyを実行すればGoogleでChatGPTを使い自分でQAを作ってくれます。
+
 再学習後のモデルは `ramen_model_finetuned.h5` として保存されます。
 
 ---
