@@ -92,7 +92,7 @@ python model_finetune.py
 
 ## 🧪 推論（インファレンス）
 
-推論用コード例（StreamlitやAPIに応用可能）：
+推論用コード例）：
 
 ```python
 from transformers import BertTokenizer
