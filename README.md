@@ -8,7 +8,7 @@
 
 💡 質問と回答のペアを正解（1）・不正解（0）として分類するバイナリ分類モデル
 
-🔀 追加のQ&Aで簡単に再学習（Fine-tuning）可能
+🔀 追加のQ&Aで簡単に再学習・Fine-tuning可能
 
 🧠 StreamlitやAPIへの応用もカンタン！
 
@@ -71,7 +71,7 @@ python model_finetune.py
 
 🧪 推論（インファレンス）
 
-以下はモデルを使ったシンプルな推論コード例です（API化やStreamlit応用もOK！）：
+以下はモデルを使ったシンプルな推論コード例です（API化やStreamlit応用もOK！）
 
 from transformers import BertTokenizer
 import tensorflow as tf
@@ -97,4 +97,3 @@ __pycache__/
 📄 ライセンス
 
 MIT License ✨
-
