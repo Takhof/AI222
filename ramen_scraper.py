@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 import json
 import os
 from dotenv import load_dotenv
+import pandas as pd
+
 
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -15,13 +17,12 @@ print(f"🔑 OpenAI API Key (一部): {client}******")
 def get_ramen_urls_from_chatgpt(query="ラーメン スープの作り方を紹介している日本語のWebページを5つ教えて"):
     messages = [{"role": "user", "content": query}]
     response = client.chat.completions.create(
-        model="gpt-4.1",
+        model="gpt-4.1-mini",
         messages=messages,
         temperature=0.3
     )
-    print("🗨️ GPT-4 からの返信内容:")
-    print(response['choices'][0]['message']['content'])
-    reply = response['choices'][0]['message']['content']
+    reply = response.choices[0].message.content
+    print(reply)
     urls = [line.strip() for line in reply.splitlines() if line.strip().startswith("http")]
     return urls
 
@@ -55,15 +56,16 @@ def extract_qa_from_text(text):
     ]
     
     response = client.chat.completions.create(
-        model="gpt-4",
+        model="gpt-3.5-turbo",
         messages=messages,
         temperature=0.4
     )
+    reply = response.choices[0].message.content
     try:
-        return json.loads(response['choices'][0]['message']['content'])
+        return json.loads(reply)
     except json.JSONDecodeError:
         print("⚠️ JSONとして読み取れなかったよ")
-        print(response['choices'][0]['message']['content']) 
+        print(reply) 
         return []
     
 
@@ -79,7 +81,14 @@ for url in urls:
         print(f"❌ {url} でエラー: {e}")
 
 # 保存
-import pandas as pd
-df = pd.DataFrame(all_qa)
-df.to_csv("qa_data.csv", mode="a", index=False, encoding="utf-8-sig")
-print("✅ ChatGPTを使ってラーメンQ&Aを自動収集・保存したよ♪")
+print(all_qa)
+print(type(all_qa))
+clean_qa = [qa for qa in all_qa if isinstance(qa, dict) and "question" in qa and "answer" in qa]
+
+print(f"📦 保存対象Q&A数: {len(clean_qa)}")
+if clean_qa:
+    df = pd.DataFrame(clean_qa)
+    df.to_csv("qa_data.csv", mode="a", index=False, header=not os.path.exists("qa_data.csv"), encoding="utf-8-sig")
+    print("✅ ChatGPTを使ってラーメンQ&Aを自動収集・保存したよ♪")
+else:
+    print("⚠️ 有効なQ&Aが見つからなかったから、保存できなかったよ…")
