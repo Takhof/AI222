@@ -1,56 +1,40 @@
-# 🍜 Ramen Retriever AI
+🍜 Ramen Retriever AI
 
-日本語BERTベースで構築した、ラーメン専門の質問応答モデル！  
-質問に対して、もっとも適切なラーメン情報を高精度にマッチングするAIです✨  
+日本語BERTベースで構築した、ラーメン専門の質問応答モデル！質問に対して、もっとも適切なラーメン情報を高精度にマッチングするAIです✨
 
----
+🚀 機能概要
 
-## 🚀 機能概要
+🤖 cl-tohoku/bert-base-japanese によるBERTベースモデルを使用
 
-- 🤖 [`cl-tohoku/bert-base-japanese`](https://huggingface.co/cl-tohoku/bert-base-japanese) によるベースモデル
-- 💡 質問と回答のペアでバイナリ分類（正解 or 不正解）
-- 🔁 新しいQ&Aを追加して再学習（Fine-tuning）が可能
-- 🧠 StreamlitやAPIへの応用も簡単！
+💡 質問と回答のペアを正解（1）・不正解（0）として分類するバイナリ分類モデル
 
----
+🔀 追加のQ&Aで簡単に再学習（Fine-tuning）可能
 
-## 🧾 ディレクトリ構成
+🧠 StreamlitやAPIへの応用もカンタン！
+
+📜 ディレクトリ構成
 
 ramen-retriever-ai/
-├── model_creator.py # 最初のモデル学習用スクリプト
-├── model_finetune.py # 追加学習用スクリプト
-├── retriever_qa.json # 質問・正解・誤答データセット
-├── qa_data.json # 追加学習用のQ&Aデータ（question/answer形式）
-├── ramen_model.h5 # 学習済みKerasモデル
-├── requirements.txt # 依存パッケージリスト
-└── README.md # このファイル
----
+├── model_creator.py         # 最初のモデル学習用スクリプト
+├── model_finetune.py        # 追加学習用スクリプト
+├── retriever_qa.json        # 質問・正解・誤答データセット
+├── qa_data.json             # 追加学習用のQ&Aデータ（question/answer形式）
+├── ramen_model.h5           # 学習済みKerasモデル
+├── requirements.txt         # 依存パッケージリスト
+└── README.md                # このファイル
 
-## 🛠️ セットアップ方法
+🛠️ セットアップ方法
 
-### 1. Python環境を用意
+1. Python環境の準備
 
-```bash
 python -m venv venv
 source venv/bin/activate  # Windowsの方は venv\Scripts\activate
 pip install -r requirements.txt
 
+🔪 モデル学習（初回）
 
-2. 必要なパッケージ
-shell
-Copy
-Edit
-tensorflow>=2.11
-transformers>=4.30
-numpy
+retriever_qa.json を以下の形式で用意してください：
 
-
-🧪 モデル学習（初回）
-retriever_qa.json に以下の形式でデータを用意：
-
-json
-Copy
-Edit
 [
   {
     "question": "ラーメンのスープの種類は？",
@@ -61,16 +45,16 @@ Edit
     ]
   }
 ]
-そのあと以下を実行：
 
-bash
-Copy
-Edit
+次に、以下を実行：
+
 python model_creator.py
-モデルは ramen_model.h5 に保存されます。
 
-🔁 追加学習（Fine-tuning）
-追加データ（qa_data.json）を以下の形式で作成：
+モデルは ramen_model.h5 として保存されます。
+
+🔄 追加学習（Fine-tuning）
+
+追加のQ&Aデータ（qa_data.json）を以下の形式で作成します：
 
 [
   {
@@ -78,20 +62,17 @@ python model_creator.py
     "answer": "濃厚な味噌だれが特徴です。"
   }
 ]
+
 以下を実行：
 
-bash
-Copy
-Edit
 python model_finetune.py
-再学習後のモデルは "ramen_model_finetuned.h5" として保存されます。
+
+再学習されたモデルは ramen_model_finetuned.h5 に保存されます。
 
 🧪 推論（インファレンス）
-推論用コード例（StreamlitやAPIに応用可能）：
 
-python
-Copy
-Edit
+以下はモデルを使ったシンプルな推論コード例です（API化やStreamlit応用もOK！）：
+
 from transformers import BertTokenizer
 import tensorflow as tf
 
@@ -103,11 +84,8 @@ def predict_score(question, answer):
     pred = model.predict([inputs["input_ids"], inputs["attention_mask"]])
     return float(pred[0][0])
 
+🚼 .gitignore に含めておくと便利なもの
 
-🧼 .gitignore に入れておくと便利なもの
-markdown
-Copy
-Edit
 __pycache__/
 *.pyc
 *.h5
@@ -116,10 +94,7 @@ __pycache__/
 .vscode/
 .idea/
 
+📄 ライセンス
 
-📜 ライセンス
-MIT License
+MIT License ✨
 
-🍥 Special Thanks
-このプロジェクトは、ラーメンを愛するすべてのAIと人間たちに捧げます。
-ラーメンは世界を救う…かも？ 🍜💕
