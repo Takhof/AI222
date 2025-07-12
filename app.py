@@ -4,7 +4,10 @@ from transformers import BertTokenizer
 from tensorflow import keras
 import numpy as np
 from transformers import TFBertModel
-
+import os
+import pandas as pd
+import json
+from pathlib import Path
 
 print(sys.executable)
 
@@ -53,3 +56,22 @@ if user_question:
     st.markdown("### 💡 答え")
     st.success(f"{answer}")
     st.markdown(f"スコア：`{score:.4f}`")
+
+
+st.markdown("### ✍️ 回答データの追加")
+
+new_q = st.text_input("質問を入力してね（追加用）", key="add_q")
+new_a = st.text_input("その答えを入力してね", key="add_a")
+
+if st.button("📚 データを追加する"):
+    if new_q and new_a:
+        data_path = "qa_data.csv"
+        if os.path.exists(data_path):
+            df = pd.read_csv(data_path)
+        else:
+            df = pd.DataFrame(columns=["question", "answer"])
+        df = pd.concat([df, pd.DataFrame([{"question": new_q, "answer": new_a}])], ignore_index=True)
+        df.to_csv(data_path, index=False, encoding="utf-8-sig")
+        st.success("✅ データを追加したよ！ありがとう")
+    else:
+        st.warning("⚠️ 質問と答え、どっちもいれてね〜！")

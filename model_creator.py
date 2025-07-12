@@ -4,6 +4,7 @@ from transformers import BertTokenizer, TFBertModel
 import numpy as np
 
 
+
 with open("retriever_qa.json", "r", encoding="utf-8") as f:
     qa_data = json.load(f)
 
