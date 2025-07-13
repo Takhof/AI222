@@ -23,7 +23,7 @@ if not data_path.exists():
 # モデルとトークナイザーの準備
 model_path = "ramen_retriever.h5"
 if not os.path.exists(model_path):
-    file_id = "1CmJuR_H2eFBaGY88XdPdrLcoYcvqwt7T/"  # 自分のファイルIDにしてね
+    file_id = "1CmJuR_H2eFBaGY88XdPdrLcoYcvqwt7T"  # 自分のファイルIDにしてね
     gdown.download(f"https://drive.google.com/uc?id={file_id}", model_path, quiet=False)
 model = keras.models.load_model(model_path, custom_objects={"TFBertModel": TFBertModel})
 tokenizer = BertTokenizer.from_pretrained("cl-tohoku/bert-base-japanese")
