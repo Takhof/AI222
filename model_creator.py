@@ -62,4 +62,4 @@ model.fit(
     epochs=3
 )
 
-model.save("ramen_retriever.h5")
+model.save("ramen_retriever_light.h5", include_optimizer=False)

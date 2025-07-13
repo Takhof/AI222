@@ -3,7 +3,6 @@ Copy
 Edit
 __pycache__/
 *.pyc
-*.h5
 *.keras
 .env
 .vscode/

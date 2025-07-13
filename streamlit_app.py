@@ -20,10 +20,8 @@ if not data_path.exists():
 
 
 # モデルとトークナイザーの準備
-model = keras.models.load_model(
-    r"C:\Users\takus\testramen\ramen_retriever.h5",
-    custom_objects={"TFBertModel": TFBertModel}
-)
+model_path = Path(__file__).parent / "ramen_retriever.h5"
+model = keras.models.load_model(model_path, custom_objects={"TFBertModel": TFBertModel})
 tokenizer = BertTokenizer.from_pretrained("cl-tohoku/bert-base-japanese")
 
 # 推論のための関数
